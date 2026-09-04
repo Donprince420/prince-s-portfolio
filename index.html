@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prince — Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Prince, a full-stack developer sharing projects, skills, and certificates." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#top">P.</a>
+    <nav class="site-nav" id="site-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-mark" aria-hidden="true">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 10 C150 10 190 50 190 100 C190 150 150 190 100 190 C60 190 20 160 20 120 C20 80 55 55 100 60" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="4" fill="currentColor"/>
+        </svg>
+      </div>
+      <p class="hero-kicker reveal">Portfolio — est. 2026</p>
+      <h1 class="hero-title reveal">
+        <span>Prince</span>
+        <span class="hero-title-sub">builds things<br />for the web.</span>
+      </h1>
+      <p class="hero-lede reveal">
+        Full-stack developer working across HTML, CSS, and JavaScript —
+        currently expanding into cloud tooling and backend systems.
+        This site tracks what I've learned and what I'm building next.
+      </p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-primary" href="#certificates">See certificates</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-figure" aria-hidden="true">
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="260" height="260" rx="4" fill="none" stroke="currentColor" stroke-width="1"/>
+          <line x1="20" y1="150" x2="280" y2="150" stroke="currentColor" stroke-width="1" stroke-dasharray="2 6"/>
+          <line x1="150" y1="20" x2="150" y2="280" stroke="currentColor" stroke-width="1" stroke-dasharray="2 6"/>
+          <circle cx="150" cy="150" r="60" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="about-copy">
+        <h2 class="section-heading reveal"><span class="section-num">01</span> About</h2>
+        <p class="reveal">
+          I started out learning to build web pages from scratch and haven't stopped
+          poking at new tools since. My focus is on writing code that's easy to read
+          six months later, and on finishing what I start — this portfolio included.
+        </p>
+        <p class="reveal">
+          Outside of coding I collect small side-projects faster than I ship them,
+          which is exactly the kind of thing a "currently learning" list is for.
+        </p>
+        <ul class="about-stats reveal">
+          <li><strong>3</strong><span>certificates earned</span></li>
+          <li><strong>2024</strong><span>started building in public</span></li>
+          <li><strong>∞</strong><span>tabs open, always</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="skills" id="skills">
+      <h2 class="section-heading reveal"><span class="section-num">02</span> Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <h3>Frontend</h3>
+          <ul>
+            <li>HTML5 &amp; semantic markup</li>
+            <li>CSS (Grid, Flexbox, animation)</li>
+            <li>JavaScript (ES6+)</li>
+            <li>Responsive design</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Tooling</h3>
+          <ul>
+            <li>Git &amp; GitHub</li>
+            <li>Netlify deploys</li>
+            <li>npm / build tooling</li>
+            <li>Browser dev tools</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Currently learning</h3>
+          <ul>
+            <li>Backend fundamentals</li>
+            <li>Cloud basics (AWS)</li>
+            <li>Databases &amp; APIs</li>
+            <li>Accessibility patterns</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="certificates" id="certificates">
+      <h2 class="section-heading reveal"><span class="section-num">03</span> Certificates</h2>
+      <ol class="cert-list">
+        <li class="cert-card reveal">
+          <span class="cert-year">2024</span>
+          <div class="cert-body">
+            <h3>Responsive Web Design</h3>
+            <p class="cert-issuer">freeCodeCamp</p>
+            <p class="cert-note">Placeholder entry — replace with your real certificate title, issuer, and date.</p>
+          </div>
+        </li>
+        <li class="cert-card reveal">
+          <span class="cert-year">2024</span>
+          <div class="cert-body">
+            <h3>JavaScript Algorithms and Data Structures</h3>
+            <p class="cert-issuer">freeCodeCamp</p>
+            <p class="cert-note">Placeholder entry — replace with your real certificate title, issuer, and date.</p>
+          </div>
+        </li>
+        <li class="cert-card reveal">
+          <span class="cert-year">2025</span>
+          <div class="cert-body">
+            <h3>Cloud Practitioner Essentials</h3>
+            <p class="cert-issuer">Amazon Web Services</p>
+            <p class="cert-note">Placeholder entry — replace with your real certificate title, issuer, and date.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2 class="section-heading reveal"><span class="section-num">04</span> Contact</h2>
+      <p class="reveal">Have a project in mind, or just want to say hi? Reach out.</p>
+      <a class="contact-link reveal" href="mailto:hello@example.com">hello@example.com</a>
+      <div class="social-links reveal">
+        <a href="https://github.com/Donprince420" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Prince. Built with plain HTML, CSS &amp; JS.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
