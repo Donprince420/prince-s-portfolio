@@ -266,6 +266,10 @@
     width: 100%;
   }
 }
+    button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 
   </style>
 </head>
@@ -488,18 +492,101 @@
       <p><strong>Phone:</strong> +250 795884333</p>
       <p><strong>Location:</strong> Kigali, Rwanda</p>
     </div>
-   <form action="contact.php" method="POST" id="contactForm">
+  <form
+  action="https://formspree.io/f/xrpgrbkw"
+  method="POST"
+  id="contactForm"
+>
+
   <label for="name">Your Name</label>
-  <input type="text" id="name" name="name" required>
+  <input
+    type="text"
+    id="name"
+    name="name"
+    autocomplete="name"
+    required
+  >
 
   <label for="email">Your Email</label>
-  <input type="email" id="email" name="email" required>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    autocomplete="email"
+    required
+  >
 
   <label for="message">Message</label>
-  <textarea id="message" name="message" rows="4" required></textarea>
+  <textarea
+    id="message"
+    name="message"
+    rows="4"
+    required
+  ></textarea>
 
-  <button type="submit">Send Message</button>
+  <button type="submit" id="sendButton">
+    Send Message
+  </button>
+
+  <p
+    id="formStatus"
+    role="status"
+    aria-live="polite"
+    style="margin:10px 0 0;"
+  ></p>
+
 </form>
+
+<script>
+const contactForm = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
+const sendButton = document.getElementById("sendButton");
+
+contactForm.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  formStatus.textContent = "Sending...";
+  sendButton.disabled = true;
+
+  try {
+
+    const response = await fetch(contactForm.action, {
+      method: "POST",
+      body: new FormData(contactForm),
+
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (response.ok) {
+
+      contactForm.reset();
+
+      formStatus.textContent =
+        "Message sent successfully! I'll get back to you soon.";
+
+    } else {
+
+      formStatus.textContent =
+        "Sorry, your message could not be sent. Please try again.";
+
+    }
+
+  } catch (error) {
+
+    formStatus.textContent =
+      "Connection error. Please check your internet and try again.";
+
+  } finally {
+
+    sendButton.disabled = false;
+
+  }
+
+});
+</script>
 
   </div>
   <div class="social-media">
