@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Prince The Don — Beat Admin</title>
+  <title>Prince The Don | Admin</title>
 
   <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 30px;
       font-family: Arial, sans-serif;
-      background: #070617;
+      background: #0b0b12;
       color: white;
     }
 
@@ -20,117 +28,261 @@
       margin: auto;
     }
 
-    .card {
-      background: #0f1120;
+    h1,
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .box {
+      background: #151522;
       padding: 25px;
-      border-radius: 16px;
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
+      border-radius: 15px;
+      margin-bottom: 20px;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      box-sizing: border-box;
       padding: 12px;
-      border-radius: 8px;
+      margin-top: 8px;
+      margin-bottom: 15px;
       border: 1px solid #333;
-      background: #080914;
+      border-radius: 8px;
+      background: #0f0f18;
       color: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    label {
+      font-weight: bold;
     }
 
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 13px;
+      padding: 12px 20px;
       border: none;
       border-radius: 8px;
-      background: linear-gradient(90deg, #06b6d4, #7c3aed);
+      cursor: pointer;
+      background: #7c3aed;
       color: white;
       font-weight: bold;
-      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
 
     button:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
+    #loginMessage,
     #status {
       margin-top: 15px;
     }
+
+    .logout {
+      margin-top: 20px;
+      background: #dc2626;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-  <div class="card">
 
-    <h1>🎵 Upload New Beat</h1>
+  <!-- =====================================
+       LOGIN
+  ====================================== -->
+
+  <div id="loginBox" class="box">
+
+    <h2>🔐 Admin Login</h2>
+
+    <label for="loginEmail">
+      Email
+    </label>
+
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Admin email"
+      autocomplete="email"
+    >
+
+
+    <label for="loginPassword">
+      Password
+    </label>
+
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+
+    <button
+      type="button"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+
+    <p id="loginMessage"></p>
+
+  </div>
+
+
+
+  <!-- =====================================
+       ADMIN PANEL
+  ====================================== -->
+
+  <div
+    id="adminPanel"
+    class="box"
+    style="display:none;"
+  >
+
+    <h1>🎵 Beat Admin</h1>
+
+    <p>
+      Upload a new beat to your store.
+    </p>
+
+
+    <!-- =====================================
+         BEAT FORM
+    ====================================== -->
 
     <form id="beatForm">
 
-      <label>Beat Title</label>
+
+      <!-- TITLE -->
+
+      <label for="title">
+        Beat Title
+      </label>
+
       <input
         type="text"
         id="title"
-        placeholder="e.g. Fire To The Rain"
+        placeholder="Example: Kigali Nights"
         required
       >
 
-      <label>Description</label>
+
+
+      <!-- DESCRIPTION -->
+
+      <label for="description">
+        Description
+      </label>
+
       <textarea
         id="description"
         placeholder="Describe your beat..."
       ></textarea>
 
-      <label>Genre</label>
+
+
+      <!-- GENRE -->
+
+      <label for="genre">
+        Genre
+      </label>
+
       <input
         type="text"
         id="genre"
-        placeholder="e.g. Drill / Trap"
+        placeholder="Example: Drill, Amapiano, Afro"
       >
 
-      <label>BPM</label>
+
+
+      <!-- BPM -->
+
+      <label for="bpm">
+        BPM
+      </label>
+
       <input
         type="number"
         id="bpm"
-        placeholder="e.g. 140"
+        placeholder="Example: 140"
       >
 
-      <label>Key</label>
+
+
+      <!-- KEY -->
+
+      <label for="musicalKey">
+        Musical Key
+      </label>
+
       <input
         type="text"
         id="musicalKey"
-        placeholder="e.g. F# Minor"
+        placeholder="Example: C Minor"
       >
 
-      <label>Price</label>
+
+
+      <!-- PRICE -->
+
+      <label for="price">
+        Price
+      </label>
+
       <input
         type="number"
         id="price"
-        placeholder="e.g. 10000"
+        placeholder="Example: 10000"
+        min="0"
         required
       >
 
-      <label>Currency</label>
+
+
+      <!-- CURRENCY -->
+
+      <label for="currency">
+        Currency
+      </label>
+
       <select id="currency">
-        <option value="RWF">RWF</option>
-        <option value="USD">USD</option>
+
+        <option value="RWF">
+          RWF
+        </option>
+
+        <option value="USD">
+          USD
+        </option>
+
       </select>
 
-      <label>Beat Preview</label>
+
+
+      <!-- PREVIEW -->
+
+      <label for="preview">
+        Beat Preview
+      </label>
+
       <input
         type="file"
         id="preview"
@@ -138,7 +290,14 @@
         required
       >
 
-      <label>Cover Image</label>
+
+
+      <!-- COVER -->
+
+      <label for="cover">
+        Cover Image
+      </label>
+
       <input
         type="file"
         id="cover"
@@ -146,240 +305,558 @@
         required
       >
 
-      <button type="submit" id="uploadButton">
+
+
+      <!-- UPLOAD -->
+
+      <button
+        type="submit"
+        id="uploadButton"
+      >
         Upload Beat
       </button>
 
-      <div id="status"></div>
+
+      <p id="status"></p>
+
 
     </form>
+
+
+
+    <!-- LOGOUT -->
+
+    <button
+      type="button"
+      class="logout"
+      onclick="logout()"
+    >
+      Logout
+    </button>
 
   </div>
 
 </div>
 
+
+
+<!-- =====================================
+     SUPABASE
+====================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
-const SUPABASE_URL = "https://lcqluqizcaenxhvcwokw.supabase.co/rest/v1/";
+
+/* ======================================
+   SUPABASE CONNECTION
+====================================== */
+
+const SUPABASE_URL =
+  "https://lcqluqizcaenxhvcwokw.supabase.co";
+
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_rwB9WmkyujVyB-6W_orZ4Q_P8yKn7mh";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-const form = document.getElementById("beatForm");
 
-const status = document.getElementById("status");
+/* ======================================
+   ADMIN LOGIN
+====================================== */
+
+async function login() {
+
+  const email =
+    document
+      .getElementById("loginEmail")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+
+  const message =
+    document.getElementById("loginMessage");
+
+
+  if (!email || !password) {
+
+    message.textContent =
+      "❌ Enter your email and password.";
+
+    return;
+  }
+
+
+  message.textContent =
+    "Logging in...";
+
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "❌ " + error.message;
+
+    return;
+  }
+
+
+  message.textContent =
+    "✅ Login successful!";
+
+
+  showAdminPanel();
+
+}
+
+
+
+/* ======================================
+   SHOW ADMIN PANEL
+====================================== */
+
+function showAdminPanel() {
+
+  document
+    .getElementById("loginBox")
+    .style.display = "none";
+
+
+  document
+    .getElementById("adminPanel")
+    .style.display = "block";
+
+}
+
+
+
+/* ======================================
+   LOGOUT
+====================================== */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+
+  document
+    .getElementById("adminPanel")
+    .style.display = "none";
+
+
+  document
+    .getElementById("loginBox")
+    .style.display = "block";
+
+
+  document
+    .getElementById("loginMessage")
+    .textContent = "";
+
+}
+
+
+
+/* ======================================
+   CHECK EXISTING LOGIN
+====================================== */
+
+async function checkLogin() {
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+
+  if (data.session) {
+
+    showAdminPanel();
+
+  } else {
+
+    document
+      .getElementById("loginBox")
+      .style.display = "block";
+
+
+    document
+      .getElementById("adminPanel")
+      .style.display = "none";
+
+  }
+
+}
+
+
+
+/* ======================================
+   BEAT FORM
+====================================== */
+
+const form =
+  document.getElementById("beatForm");
+
+
+const status =
+  document.getElementById("status");
+
 
 const uploadButton =
   document.getElementById("uploadButton");
 
 
-form.addEventListener("submit", async function(event) {
 
-  event.preventDefault();
-
-  uploadButton.disabled = true;
-
-  status.textContent = "Uploading beat...";
+form.addEventListener(
+  "submit",
+  async function(event) {
 
 
-  try {
-
-    const title =
-      document.getElementById("title").value.trim();
-
-    const description =
-      document.getElementById("description").value.trim();
-
-    const genre =
-      document.getElementById("genre").value.trim();
-
-    const bpm =
-      document.getElementById("bpm").value;
-
-    const musicalKey =
-      document.getElementById("musicalKey").value.trim();
-
-    const price =
-      document.getElementById("price").value;
-
-    const currency =
-      document.getElementById("currency").value;
+    event.preventDefault();
 
 
-    const previewFile =
-      document.getElementById("preview").files[0];
+    /* Make sure user is logged in */
 
-    const coverFile =
-      document.getElementById("cover").files[0];
+    const { data: sessionData } =
+      await supabaseClient.auth.getSession();
 
 
-    if (!previewFile || !coverFile) {
+    if (!sessionData.session) {
 
-      throw new Error(
-        "Please select both a beat preview and cover image."
-      );
+      status.textContent =
+        "❌ Please login first.";
+
+      return;
 
     }
 
 
-    /*
-      Create unique filenames
-    */
+    uploadButton.disabled = true;
 
-    const timestamp = Date.now();
-
-    const safeTitle =
-      title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-");
-
-
-    const previewPath =
-      `${timestamp}-${safeTitle}.${previewFile.name.split(".").pop()}`;
-
-    const coverPath =
-      `${timestamp}-${safeTitle}.${coverFile.name.split(".").pop()}`;
-
-
-    /*
-      Upload audio
-    */
 
     status.textContent =
-      "Uploading audio...";
+      "Uploading beat...";
 
 
-    const { error: previewError } =
-      await supabaseClient.storage
-        .from("beats")
-        .upload(previewPath, previewFile);
+
+    try {
 
 
-    if (previewError) {
+      /* =================================
+         GET FORM VALUES
+      ================================= */
 
-      throw previewError;
+      const title =
+        document
+          .getElementById("title")
+          .value
+          .trim();
+
+
+      const description =
+        document
+          .getElementById("description")
+          .value
+          .trim();
+
+
+      const genre =
+        document
+          .getElementById("genre")
+          .value
+          .trim();
+
+
+      const bpm =
+        document
+          .getElementById("bpm")
+          .value;
+
+
+      const musicalKey =
+        document
+          .getElementById("musicalKey")
+          .value
+          .trim();
+
+
+      const price =
+        document
+          .getElementById("price")
+          .value;
+
+
+      const currency =
+        document
+          .getElementById("currency")
+          .value;
+
+
+      const previewFile =
+        document
+          .getElementById("preview")
+          .files[0];
+
+
+      const coverFile =
+        document
+          .getElementById("cover")
+          .files[0];
+
+
+
+      /* =================================
+         VALIDATION
+      ================================= */
+
+      if (!title) {
+
+        throw new Error(
+          "Please enter a beat title."
+        );
+
+      }
+
+
+      if (!previewFile) {
+
+        throw new Error(
+          "Please select a beat preview."
+        );
+
+      }
+
+
+      if (!coverFile) {
+
+        throw new Error(
+          "Please select a cover image."
+        );
+
+      }
+
+
+
+      /* =================================
+         UNIQUE FILE NAMES
+      ================================= */
+
+      const timestamp =
+        Date.now();
+
+
+      const safeTitle =
+        title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-");
+
+
+      const previewExtension =
+        previewFile.name
+          .split(".")
+          .pop();
+
+
+      const coverExtension =
+        coverFile.name
+          .split(".")
+          .pop();
+
+
+      const previewPath =
+        `${timestamp}-${safeTitle}.${previewExtension}`;
+
+
+      const coverPath =
+        `${timestamp}-${safeTitle}.${coverExtension}`;
+
+
+
+      /* =================================
+         UPLOAD AUDIO
+      ================================= */
+
+      status.textContent =
+        "Uploading audio...";
+
+
+      const { error: previewError } =
+        await supabaseClient.storage
+          .from("beats")
+          .upload(
+            previewPath,
+            previewFile
+          );
+
+
+      if (previewError) {
+
+        throw previewError;
+
+      }
+
+
+
+      /* =================================
+         UPLOAD COVER
+      ================================= */
+
+      status.textContent =
+        "Uploading cover...";
+
+
+      const { error: coverError } =
+        await supabaseClient.storage
+          .from("beat-covers")
+          .upload(
+            coverPath,
+            coverFile
+          );
+
+
+      if (coverError) {
+
+        throw coverError;
+
+      }
+
+
+
+      /* =================================
+         GET PUBLIC URLS
+      ================================= */
+
+      const { data: previewData } =
+        supabaseClient.storage
+          .from("beats")
+          .getPublicUrl(
+            previewPath
+          );
+
+
+      const { data: coverData } =
+        supabaseClient.storage
+          .from("beat-covers")
+          .getPublicUrl(
+            coverPath
+          );
+
+
+
+      /* =================================
+         SAVE TO DATABASE
+      ================================= */
+
+      status.textContent =
+        "Saving beat information...";
+
+
+      const { error: databaseError } =
+        await supabaseClient
+          .from("beats")
+          .insert({
+
+            title: title,
+
+            description: description,
+
+            genre: genre,
+
+            bpm: bpm
+              ? Number(bpm)
+              : null,
+
+            musical_key: musicalKey,
+
+            price: Number(price),
+
+            currency: currency,
+
+            preview_url:
+              previewData.publicUrl,
+
+            cover_url:
+              coverData.publicUrl,
+
+            is_published: true
+
+          });
+
+
+      if (databaseError) {
+
+        throw databaseError;
+
+      }
+
+
+
+      /* =================================
+         SUCCESS
+      ================================= */
+
+      status.textContent =
+        "✅ Beat uploaded successfully!";
+
+
+      form.reset();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      status.textContent =
+        "❌ Upload failed: " +
+        error.message;
+
+
+    } finally {
+
+      uploadButton.disabled = false;
 
     }
-
-
-    /*
-      Upload cover
-    */
-
-    status.textContent =
-      "Uploading cover...";
-
-
-    const { error: coverError } =
-      await supabaseClient.storage
-        .from("beat-covers")
-        .upload(coverPath, coverFile);
-
-
-    if (coverError) {
-
-      throw coverError;
-
-    }
-
-
-    /*
-      Get public URLs
-    */
-
-    const { data: previewData } =
-      supabaseClient.storage
-        .from("beats")
-        .getPublicUrl(previewPath);
-
-
-    const { data: coverData } =
-      supabaseClient.storage
-        .from("beat-covers")
-        .getPublicUrl(coverPath);
-
-
-    /*
-      Save beat information
-      in the database
-    */
-
-    status.textContent =
-      "Saving beat information...";
-
-
-    const { error: databaseError } =
-      await supabaseClient
-        .from("beats")
-        .insert({
-
-          title: title,
-
-          description: description,
-
-          genre: genre,
-
-          bpm: bpm ? Number(bpm) : null,
-
-          musical_key: musicalKey,
-
-          price: Number(price),
-
-          currency: currency,
-
-          preview_url:
-            previewData.publicUrl,
-
-          cover_url:
-            coverData.publicUrl,
-
-          is_published: true
-
-        });
-
-
-    if (databaseError) {
-
-      throw databaseError;
-
-    }
-
-
-    /*
-      Success
-    */
-
-    status.textContent =
-      "✅ Beat uploaded successfully!";
-
-
-    form.reset();
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    status.textContent =
-      "❌ Upload failed: " + error.message;
-
-  } finally {
-
-    uploadButton.disabled = false;
 
   }
+);
 
-});
+
+
+/* ======================================
+   START LOGIN CHECK
+====================================== */
+
+checkLogin();
+
 
 </script>
 
+
 </body>
+
 </html>
