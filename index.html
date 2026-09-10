@@ -709,21 +709,14 @@ contactForm.addEventListener("submit", async function(event) {
 
 });
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://lcqluqizcaenxhvcwokw.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_rwB9WmkyujVyB-6W_orZ4Q_P8yKn7mh";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
+  <script>
 async function loadBeats() {
   const beatsGrid = document.getElementById("beatsGrid");
+
+  if (!beatsGrid) {
+    console.error("beatsGrid element was not found.");
+    return;
+  }
 
   try {
     const { data: beats, error } = await supabaseClient
@@ -733,19 +726,19 @@ async function loadBeats() {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error(error);
+      console.error("Supabase error:", error);
       beatsGrid.innerHTML = "<p>Unable to load beats.</p>";
       return;
     }
 
     if (!beats || beats.length === 0) {
-      beatsGrid.innerHTML = "<p>No beats available yet.</p>";
+      beatsGrid.innerHTML = "<p>No published beats available yet.</p>";
       return;
     }
 
     beatsGrid.innerHTML = "";
 
-    beats.forEach(beat => {
+    beats.forEach((beat) => {
       const card = document.createElement("div");
       card.className = "beat-card";
 
@@ -766,9 +759,9 @@ async function loadBeats() {
           </p>
 
           <div class="beat-meta">
-            <span>${beat.genre || "Unknown"}</span>
+            <span>${beat.genre || "Unknown genre"}</span>
             <span>${beat.bpm ? beat.bpm + " BPM" : ""}</span>
-            <span>${beat.musical_key || ""}</span>
+            <span>${beat.musical_key || "Key not specified"}</span>
           </div>
 
           ${
@@ -779,12 +772,13 @@ async function loadBeats() {
                   Your browser does not support audio.
                 </audio>
               `
-              : ""
+              : "<p>No preview available.</p>"
           }
 
           <div class="beat-bottom">
             <strong>
-              ${Number(beat.price).toLocaleString()} ${beat.currency || "RWF"}
+              ${Number(beat.price || 0).toLocaleString()}
+              ${beat.currency || "RWF"}
             </strong>
 
             <button
@@ -799,9 +793,8 @@ async function loadBeats() {
 
       beatsGrid.appendChild(card);
     });
-
   } catch (error) {
-    console.error(error);
+    console.error("Unexpected error:", error);
     beatsGrid.innerHTML = "<p>Something went wrong loading the beats.</p>";
   }
 }
