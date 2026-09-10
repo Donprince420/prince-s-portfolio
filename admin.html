@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Prince The Don — Beat Admin</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      font-family: Arial, sans-serif;
+      background: #070617;
+      color: white;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .card {
+      background: #0f1120;
+      padding: 25px;
+      border-radius: 16px;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #080914;
+      color: white;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #06b6d4, #7c3aed);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>🎵 Upload New Beat</h1>
+
+    <form id="beatForm">
+
+      <label>Beat Title</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="e.g. Fire To The Rain"
+        required
+      >
+
+      <label>Description</label>
+      <textarea
+        id="description"
+        placeholder="Describe your beat..."
+      ></textarea>
+
+      <label>Genre</label>
+      <input
+        type="text"
+        id="genre"
+        placeholder="e.g. Drill / Trap"
+      >
+
+      <label>BPM</label>
+      <input
+        type="number"
+        id="bpm"
+        placeholder="e.g. 140"
+      >
+
+      <label>Key</label>
+      <input
+        type="text"
+        id="musicalKey"
+        placeholder="e.g. F# Minor"
+      >
+
+      <label>Price</label>
+      <input
+        type="number"
+        id="price"
+        placeholder="e.g. 10000"
+        required
+      >
+
+      <label>Currency</label>
+      <select id="currency">
+        <option value="RWF">RWF</option>
+        <option value="USD">USD</option>
+      </select>
+
+      <label>Beat Preview</label>
+      <input
+        type="file"
+        id="preview"
+        accept="audio/*"
+        required
+      >
+
+      <label>Cover Image</label>
+      <input
+        type="file"
+        id="cover"
+        accept="image/*"
+        required
+      >
+
+      <button type="submit" id="uploadButton">
+        Upload Beat
+      </button>
+
+      <div id="status"></div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+const form = document.getElementById("beatForm");
+
+const status = document.getElementById("status");
+
+const uploadButton =
+  document.getElementById("uploadButton");
+
+
+form.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  uploadButton.disabled = true;
+
+  status.textContent = "Uploading beat...";
+
+
+  try {
+
+    const title =
+      document.getElementById("title").value.trim();
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const genre =
+      document.getElementById("genre").value.trim();
+
+    const bpm =
+      document.getElementById("bpm").value;
+
+    const musicalKey =
+      document.getElementById("musicalKey").value.trim();
+
+    const price =
+      document.getElementById("price").value;
+
+    const currency =
+      document.getElementById("currency").value;
+
+
+    const previewFile =
+      document.getElementById("preview").files[0];
+
+    const coverFile =
+      document.getElementById("cover").files[0];
+
+
+    if (!previewFile || !coverFile) {
+
+      throw new Error(
+        "Please select both a beat preview and cover image."
+      );
+
+    }
+
+
+    /*
+      Create unique filenames
+    */
+
+    const timestamp = Date.now();
+
+    const safeTitle =
+      title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-");
+
+
+    const previewPath =
+      `${timestamp}-${safeTitle}.${previewFile.name.split(".").pop()}`;
+
+    const coverPath =
+      `${timestamp}-${safeTitle}.${coverFile.name.split(".").pop()}`;
+
+
+    /*
+      Upload audio
+    */
+
+    status.textContent =
+      "Uploading audio...";
+
+
+    const { error: previewError } =
+      await supabaseClient.storage
+        .from("beats")
+        .upload(previewPath, previewFile);
+
+
+    if (previewError) {
+
+      throw previewError;
+
+    }
+
+
+    /*
+      Upload cover
+    */
+
+    status.textContent =
+      "Uploading cover...";
+
+
+    const { error: coverError } =
+      await supabaseClient.storage
+        .from("beat-covers")
+        .upload(coverPath, coverFile);
+
+
+    if (coverError) {
+
+      throw coverError;
+
+    }
+
+
+    /*
+      Get public URLs
+    */
+
+    const { data: previewData } =
+      supabaseClient.storage
+        .from("beats")
+        .getPublicUrl(previewPath);
+
+
+    const { data: coverData } =
+      supabaseClient.storage
+        .from("beat-covers")
+        .getPublicUrl(coverPath);
+
+
+    /*
+      Save beat information
+      in the database
+    */
+
+    status.textContent =
+      "Saving beat information...";
+
+
+    const { error: databaseError } =
+      await supabaseClient
+        .from("beats")
+        .insert({
+
+          title: title,
+
+          description: description,
+
+          genre: genre,
+
+          bpm: bpm ? Number(bpm) : null,
+
+          musical_key: musicalKey,
+
+          price: Number(price),
+
+          currency: currency,
+
+          preview_url:
+            previewData.publicUrl,
+
+          cover_url:
+            coverData.publicUrl,
+
+          is_published: true
+
+        });
+
+
+    if (databaseError) {
+
+      throw databaseError;
+
+    }
+
+
+    /*
+      Success
+    */
+
+    status.textContent =
+      "✅ Beat uploaded successfully!";
+
+
+    form.reset();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Upload failed: " + error.message;
+
+  } finally {
+
+    uploadButton.disabled = false;
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
