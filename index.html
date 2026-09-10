@@ -55,6 +55,106 @@
     .track h4{margin:0}
     .controls{display:flex;gap:8px;align-items:center}
     button.play{padding:8px 12px;border-radius:10px;border:0;background:rgba(255,255,255,0.03);cursor:pointer}
+    .beat-store {
+  padding: 80px 8%;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+.section-title h2 {
+  font-size: 42px;
+  margin: 10px 0;
+}
+
+.beats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.beat-card {
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.beat-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.beat-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+}
+
+.beat-info {
+  padding: 20px;
+}
+
+.beat-info h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.beat-description {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+.beat-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.beat-meta span {
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  font-size: 12px;
+}
+
+.beat-card audio {
+  width: 100%;
+  margin: 10px 0 15px;
+}
+
+.beat-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buy-button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
 
 /* Contact Section */
 #contact {
@@ -396,6 +496,17 @@
           </div>
         </div>
       </section>
+      <section id="beat-store" class="beat-store">
+  <div class="section-title">
+    <p class="section-subtitle">MY BEATS</p>
+    <h2>Beat Store</h2>
+    <p>Listen to my latest beats and choose the sound that fits your project.</p>
+  </div>
+
+  <div id="beatsGrid" class="beats-grid">
+    <p id="beatsLoading">Loading beats...</p>
+  </div>
+</section>
 
       <section id="certificates">
           
@@ -597,6 +708,109 @@ contactForm.addEventListener("submit", async function(event) {
   }
 
 });
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://lcqluqizcaenxhvcwokw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_rwB9WmkyujVyB-6W_orZ4Q_P8yKn7mh";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+async function loadBeats() {
+  const beatsGrid = document.getElementById("beatsGrid");
+
+  try {
+    const { data: beats, error } = await supabaseClient
+      .from("beats")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      beatsGrid.innerHTML = "<p>Unable to load beats.</p>";
+      return;
+    }
+
+    if (!beats || beats.length === 0) {
+      beatsGrid.innerHTML = "<p>No beats available yet.</p>";
+      return;
+    }
+
+    beatsGrid.innerHTML = "";
+
+    beats.forEach(beat => {
+      const card = document.createElement("div");
+      card.className = "beat-card";
+
+      card.innerHTML = `
+        <div class="beat-cover">
+          ${
+            beat.cover_url
+              ? `<img src="${beat.cover_url}" alt="${beat.title}">`
+              : `<div class="no-cover">🎵</div>`
+          }
+        </div>
+
+        <div class="beat-info">
+          <h3>${beat.title}</h3>
+
+          <p class="beat-description">
+            ${beat.description || ""}
+          </p>
+
+          <div class="beat-meta">
+            <span>${beat.genre || "Unknown"}</span>
+            <span>${beat.bpm ? beat.bpm + " BPM" : ""}</span>
+            <span>${beat.musical_key || ""}</span>
+          </div>
+
+          ${
+            beat.preview_url
+              ? `
+                <audio controls preload="none">
+                  <source src="${beat.preview_url}" type="audio/mpeg">
+                  Your browser does not support audio.
+                </audio>
+              `
+              : ""
+          }
+
+          <div class="beat-bottom">
+            <strong>
+              ${Number(beat.price).toLocaleString()} ${beat.currency || "RWF"}
+            </strong>
+
+            <button
+              class="buy-button"
+              onclick="buyBeat(${beat.id})"
+            >
+              Buy
+            </button>
+          </div>
+        </div>
+      `;
+
+      beatsGrid.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error(error);
+    beatsGrid.innerHTML = "<p>Something went wrong loading the beats.</p>";
+  }
+}
+
+function buyBeat(beatId) {
+  alert("Purchase system coming next. Beat ID: " + beatId);
+}
+
+loadBeats();
 </script>
 
   </div>
