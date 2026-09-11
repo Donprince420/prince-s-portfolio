@@ -370,6 +370,114 @@
   opacity: 0.65;
   cursor: not-allowed;
 }
+    .beats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.beat-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 15px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.beat-cover-small {
+  width: 95px;
+  height: 95px;
+  min-width: 95px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.beat-cover-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.beat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.beat-info h3 {
+  margin: 0 0 5px;
+  font-size: 19px;
+}
+
+.beat-description {
+  margin: 0 0 8px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.beat-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.beat-meta span {
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  font-size: 11px;
+}
+
+.preview-play {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.beat-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.buy-button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+@media (max-width: 500px) {
+  .beat-card {
+    gap: 12px;
+  }
+
+  .beat-cover-small {
+    width: 75px;
+    height: 75px;
+    min-width: 75px;
+  }
+}
 
   </style>
 </head>
@@ -709,14 +817,14 @@ contactForm.addEventListener("submit", async function(event) {
 
 });
 </script>
-  <script>
+ <script>
+let currentAudio = null;
+let currentPlayButton = null;
+
 async function loadBeats() {
   const beatsGrid = document.getElementById("beatsGrid");
 
-  if (!beatsGrid) {
-    console.error("beatsGrid element was not found.");
-    return;
-  }
+  if (!beatsGrid) return;
 
   try {
     const { data: beats, error } = await supabaseClient
@@ -743,7 +851,7 @@ async function loadBeats() {
       card.className = "beat-card";
 
       card.innerHTML = `
-        <div class="beat-cover">
+        <div class="beat-cover-small">
           ${
             beat.cover_url
               ? `<img src="${beat.cover_url}" alt="${beat.title}">`
@@ -767,12 +875,15 @@ async function loadBeats() {
           ${
             beat.preview_url
               ? `
-                <audio controls preload="none">
-                  <source src="${beat.preview_url}" type="audio/mpeg">
-                  Your browser does not support audio.
-                </audio>
+                <button
+                  class="preview-play"
+                  data-audio="${beat.preview_url}"
+                  aria-label="Play ${beat.title}"
+                >
+                  ▶
+                </button>
               `
-              : "<p>No preview available.</p>"
+              : ""
           }
 
           <div class="beat-bottom">
@@ -793,9 +904,49 @@ async function loadBeats() {
 
       beatsGrid.appendChild(card);
     });
+
+    document.querySelectorAll(".preview-play").forEach(button => {
+      button.addEventListener("click", () => {
+        playPreview(button);
+      });
+    });
+
   } catch (error) {
-    console.error("Unexpected error:", error);
-    beatsGrid.innerHTML = "<p>Something went wrong loading the beats.</p>";
+    console.error(error);
+    beatsGrid.innerHTML =
+      "<p>Something went wrong loading the beats.</p>";
+  }
+}
+
+function playPreview(button) {
+  const audioURL = button.dataset.audio;
+
+  // Stop currently playing beat
+  if (currentAudio && currentPlayButton !== button) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+
+    if (currentPlayButton) {
+      currentPlayButton.textContent = "▶";
+    }
+  }
+
+  // Create audio if this beat isn't currently loaded
+  if (!currentAudio || currentPlayButton !== button) {
+    currentAudio = new Audio(audioURL);
+    currentPlayButton = button;
+
+    currentAudio.addEventListener("ended", () => {
+      button.textContent = "▶";
+    });
+  }
+
+  if (currentAudio.paused) {
+    currentAudio.play();
+    button.textContent = "❚❚";
+  } else {
+    currentAudio.pause();
+    button.textContent = "▶";
   }
 }
 
