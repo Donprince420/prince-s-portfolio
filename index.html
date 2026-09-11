@@ -390,113 +390,302 @@
   opacity: 0.65;
   cursor: not-allowed;
 }
-    .beats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+/* ================================
+   BEAT STORE
+================================ */
+
+.beats-section {
+  width: 100%;
+  padding: 30px 0;
 }
 
+/* 4 BEATS PER ROW */
+.beats-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+/* BEAT CARD */
 .beat-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.beat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* BEAT CONTENT */
+.beat-content {
+  width: 100%;
+  min-width: 0;
+}
+
+/* TOP AREA */
+.beat-top {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 15px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 10px;
+  width: 100%;
 }
 
+/* SMALL COVER */
 .beat-cover-small {
-  width: 95px;
-  height: 95px;
-  min-width: 95px;
-  border-radius: 12px;
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .beat-cover-small img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
 }
 
-.no-cover {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-}
-
+/* BEAT INFORMATION */
 .beat-info {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .beat-info h3 {
-  margin: 0 0 5px;
-  font-size: 19px;
+  margin: 0 0 7px 0;
+
+  font-size: 15px;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .beat-description {
-  margin: 0 0 8px;
-  font-size: 13px;
+  margin: 0;
+
+  font-size: 11px;
+  line-height: 1.4;
+
   opacity: 0.7;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
+/* GENRE / BPM / KEY */
 .beat-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 4px;
+
+  margin-top: 8px;
 }
 
 .beat-meta span {
-  padding: 4px 8px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.08);
-  font-size: 11px;
+  padding: 4px 7px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  font-size: 9px;
+  line-height: 1;
+
+  white-space: nowrap;
 }
 
+/* PLAY BUTTON */
 .preview-play {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
+
   border: none;
   border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+
+  margin-top: 10px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  line-height: 1;
+
+  background: linear-gradient(135deg, #00bcd4, #7c3aed);
+  color: white;
+
+  transition: transform 0.2s ease;
 }
 
+.preview-play:hover {
+  transform: scale(1.08);
+}
+
+.preview-play:active {
+  transform: scale(0.95);
+}
+
+/* BOTTOM AREA */
 .beat-bottom {
+  width: 100%;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start;
+
+  gap: 5px;
+
+  margin-top: 10px;
 }
 
+/* PRICE */
+.beat-bottom strong {
+  font-size: 13px;
+
+  white-space: nowrap;
+}
+
+/* BUY BUTTON */
 .buy-button {
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
   cursor: pointer;
+
+  font-size: 11px;
   font-weight: 700;
+
+  color: white;
+
+  background: linear-gradient(135deg, #00bcd4, #7c3aed);
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-@media (max-width: 500px) {
-  .beat-card {
+.buy-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.buy-button:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
+
+  .beats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
   }
 
-  .beat-cover-small {
-    width: 75px;
-    height: 75px;
-    min-width: 75px;
+}
+
+
+/* ================================
+   SMALL TABLET / LARGE PHONE
+================================ */
+
+@media (max-width: 700px) {
+
+  .beats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
+
+  .beat-card {
+    padding: 10px;
+  }
+
+  .beat-cover-small {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+
+  .beat-info h3 {
+    font-size: 14px;
+  }
+
+}
+
+
+/* ================================
+   PHONE
+================================ */
+
+@media (max-width: 450px) {
+
+  .beats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .beat-card {
+    padding: 12px;
+  }
+
+  .beat-cover-small {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+
+  .beat-info h3 {
+    font-size: 15px;
+  }
+
+}
+
+
+/* ================================
+   VERY SMALL PHONE
+================================ */
+
+@media (max-width: 350px) {
+
+  .beat-cover-small {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+  }
+
+  .beat-bottom strong {
+    font-size: 12px;
+  }
+
+  .buy-button {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+
 }
 
   </style>
