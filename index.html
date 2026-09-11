@@ -687,6 +687,38 @@
   }
 
 }
+    /* MUSIC PLAY BUTTON */
+
+.music-play {
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 3px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  color: white;
+
+  background: linear-gradient(135deg, #00bcd4, #7c3aed);
+
+  transition: transform 0.2s ease;
+}
+
+.music-play:hover {
+  transform: scale(1.08);
+}
+
+.music-play:active {
+  transform: scale(0.95);
+}
 
   </style>
 </head>
@@ -856,60 +888,100 @@
           </div>
 
       </section>
-      <section id="music">
-        <h2>Music — Selected Tracks</h2>
-        <div class="card" style="margin-top:12px">
-          <div class="music-grid">
-            <div class="track">
-              <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">01</div>
-              <div class="meta">
-                <h4>Fire to the rain</h4>
-                <div class="muted">Drill / Trap • 2:34</div>
-                <audio controls preload="none" style="width:100%;margin-top:8px">
-                  <source src="assets/music/Fire.mp3" type="audio/mpeg">
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
-            </div>
+      <!-- ================================
+     MUSIC — SELECTED TRACKS
+================================ -->
 
-            <div class="track">
-              <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">02</div>
-              <div class="meta">
-                <h4>Sample Drill</h4>
-                <div class="muted">Burning • 3:01</div>
-                <audio controls preload="none" style="width:100%;margin-top:8px">
-                  <source src="assets/music/Burning [FLP].wav" type="audio/mpeg">
-                </audio>
-              </div>
-            </div>
+<section class="music-section">
 
-            <div class="track">
-              <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">03</div>
-              <div class="meta">
-                <h4>Not the Same</h4>
-                <div class="muted">Sampled from Original • 1:55</div>
-                <audio controls preload="none" style="width:100%;margin-top:8px">
-                  <source src="assets/music/Not the same.mp3" type="audio/mpeg">
-                </audio>
-              </div>
-            </div>
+  <h2>Music — Selected Tracks</h2>
 
-            <div class="track">
-              <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">04</div>
-              <div class="meta">
-                <h4>Mix & Master Demo</h4>
-                <div class="muted">Bwe Bwe Bwe Mastered • 2:20</div>
-                <audio controls preload="none" style="width:100%;margin-top:8px">
-                  <source src="assets/music/bwe bwe.mp3" type="audio/mpeg">
-                </audio>
-              </div>
-            </div>
+  <div class="music-grid">
 
-          </div>
+    <!-- TRACK 01 -->
+    <div class="music-track">
 
-          <div style="margin-top:12px" class="muted"></div>
-        </div>
-      </section>
+      <div class="track-number">01</div>
+
+      <div class="track-info">
+        <h3>Fire to the rain</h3>
+        <p>Drill / Trap • 2:34</p>
+
+        <button
+          class="music-play"
+          onclick="playMusic('fire', this)"
+          aria-label="Play Fire to the rain">
+          ▶
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- TRACK 02 -->
+    <div class="music-track">
+
+      <div class="track-number">02</div>
+
+      <div class="track-info">
+        <h3>Sample Drill</h3>
+        <p>Burning • 3:01</p>
+
+        <button
+          class="music-play"
+          onclick="playMusic('sample', this)"
+          aria-label="Play Sample Drill">
+          ▶
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- TRACK 03 -->
+    <div class="music-track">
+
+      <div class="track-number">03</div>
+
+      <div class="track-info">
+        <h3>Not the Same</h3>
+        <p>Sampled from Original • 1:55</p>
+
+        <button
+          class="music-play"
+          onclick="playMusic('not-same', this)"
+          aria-label="Play Not the Same">
+          ▶
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- TRACK 04 -->
+    <div class="music-track">
+
+      <div class="track-number">04</div>
+
+      <div class="track-info">
+        <h3>Mix &amp; Master Demo</h3>
+        <p>Bwe Bwe Bwe Mastered • 2:20</p>
+
+        <button
+          class="music-play"
+          onclick="playMusic('mix-master', this)"
+          aria-label="Play Mix & Master Demo">
+          ▶
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
       <section id="contact">
   <h2>Chill Up with Me</h2>
@@ -1165,7 +1237,101 @@ function buyBeat(beatId) {
 
 loadBeats();
 </script>
+<script>
+/* =========================================
+   MUSIC PLAYER
+========================================= */
 
+let currentMusic = null;
+let currentButton = null;
+
+
+/* MUSIC FILES */
+
+const musicFiles = {
+  "fire": "assets/music/Fire.mp3",
+  "sample": "assets/music/Burning[FLP].wav",
+  "not-same": "assets/music/Not the same.mp3",
+  "mix-master": "assets/music/bwe bwe.mp3"
+};
+
+
+/* PLAY / PAUSE MUSIC */
+
+function playMusic(track, button) {
+
+  const audioFile = musicFiles[track];
+
+  /* If clicking the currently playing track */
+  if (currentMusic && currentButton === button) {
+
+    if (currentMusic.paused) {
+
+      currentMusic.play();
+      button.textContent = "❚❚";
+
+    } else {
+
+      currentMusic.pause();
+      button.textContent = "▶";
+
+    }
+
+    return;
+  }
+
+
+  /* Stop previous music */
+
+  if (currentMusic) {
+
+    currentMusic.pause();
+    currentMusic.currentTime = 0;
+
+  }
+
+
+  if (currentButton) {
+    currentButton.textContent = "▶";
+  }
+
+
+  /* Create new audio */
+
+  currentMusic = new Audio(audioFile);
+  currentButton = button;
+
+
+  /* Play */
+
+  currentMusic.play()
+    .then(() => {
+      button.textContent = "❚❚";
+    })
+    .catch((error) => {
+
+      console.error("Could not play music:", error);
+
+      button.textContent = "▶";
+
+      alert("Music file could not be played. Check the file path.");
+
+    });
+
+
+  /* When track finishes */
+
+  currentMusic.addEventListener("ended", function () {
+
+    button.textContent = "▶";
+
+    currentMusic = null;
+    currentButton = null;
+
+  });
+
+}
+</script>
   </div>
   <div class="social-media">
   <a href="https://www.facebook.com/princethedon420" target="_blank"><i class="fab fa-facebook-f"></i></a>
