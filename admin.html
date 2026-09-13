@@ -304,6 +304,22 @@
         accept="image/*"
         required
       >
+      <!-- PAID / FULL-QUALITY BEAT -->
+
+<label for="paidBeat">
+  Full-Quality Beat
+</label>
+
+<input
+  type="file"
+  id="paidBeat"
+  accept="audio/*"
+  required
+>
+
+<small style="display:block;margin-top:-8px;margin-bottom:15px;color:#aaa;">
+  This file will be stored securely in the private paid-beats bucket.
+</small>
 
 
 
@@ -626,7 +642,10 @@ form.addEventListener(
         document
           .getElementById("cover")
           .files[0];
-
+     const paidBeatFile =
+       document
+         .getElementById("paidBeat")
+         .files[0];
 
 
       /* =================================
@@ -658,6 +677,13 @@ form.addEventListener(
         );
 
       }
+      if (!paidBeatFile) {
+
+        throw new Error(
+          "Please select the full-quality beat."
+        );
+
+      }
 
 
 
@@ -685,6 +711,11 @@ form.addEventListener(
         coverFile.name
           .split(".")
           .pop();
+      
+      const paidBeatExtension =
+        paidBeatFile.name
+          .split(".")
+          .pop();
 
 
       const previewPath =
@@ -694,6 +725,9 @@ form.addEventListener(
       const coverPath =
         `${timestamp}-${safeTitle}.${coverExtension}`;
 
+      
+      const paidBeatPath =
+        `${timestamp}-${safeTitle}-full.${paidBeatExtension}`;
 
 
       /* =================================
@@ -743,6 +777,26 @@ form.addEventListener(
         throw coverError;
 
       }
+      /* =================================
+   UPLOAD FULL-QUALITY BEAT
+================================= */
+
+status.textContent =
+  "Uploading full-quality beat...";
+
+const { error: paidBeatError } =
+  await supabaseClient.storage
+    .from("paid-beats")
+    .upload(
+      paidBeatPath,
+      paidBeatFile
+    );
+
+if (paidBeatError) {
+
+  throw paidBeatError;
+
+}
 
 
 
@@ -801,6 +855,8 @@ form.addEventListener(
 
             cover_url:
               coverData.publicUrl,
+            paid_file_path: 
+              paidBeatPath,
 
             is_published: true
 
