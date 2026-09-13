@@ -223,23 +223,7 @@
   transform: scale(1.2);
 }
 
-.certificate-card {
-  text-align: center;
-  transition: transform 0.3s ease;
-}
 
-.certificate-card:hover {
-  transform: translateY(-8px);
-}
-
-.cert-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  border: 2px solid rgba(255,255,255,0.05);
-}
 .profile-img {
   width: 180px;
   height: 180px;
@@ -719,6 +703,171 @@
 .music-play:active {
   transform: scale(0.95);
 }
+/* =========================================
+   CERTIFICATES
+========================================= */
+
+#certificates {
+  width: 100%;
+  margin-top: 30px;
+}
+
+#certificates > h2 {
+  margin-bottom: 18px;
+}
+
+
+/* 4 CERTIFICATES PER ROW */
+
+.certificates-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+
+  align-items: start;
+}
+
+
+/* CERTIFICATE CARD */
+
+.certificate-card {
+  width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  transition: transform 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.certificate-card:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+
+/* CERTIFICATE IMAGE */
+
+.certificate-card .cert-img {
+  width: 100%;
+
+  height: 115px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+}
+
+
+/* TITLE */
+
+.certificate-card h3 {
+  margin: 9px 0 5px;
+
+  font-size: 13px;
+
+  line-height: 1.25;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* DETAILS */
+
+.certificate-card .muted {
+  margin: 2px 0;
+
+  font-size: 10px;
+
+  line-height: 1.35;
+
+  opacity: 0.7;
+}
+
+
+/* VIEW BUTTON */
+
+.certificate-card .certificate-button {
+  display: inline-block;
+
+  margin-top: 7px;
+
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+
+  text-decoration: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .certificates-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+  .certificates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 450px) {
+
+  .certificates-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .certificate-card .cert-img {
+    height: 180px;
+  }
+
+}
 
   </style>
 </head>
@@ -857,56 +1006,116 @@
   </div>
 </section>
 
-      <section id="certificates">
-          
-          <h2>Certificates & Achievements</h2>
-          
-          
+<section id="certificates">
 
-            <div class="card certificate-card">
-             <img src="assets/images/aws.png" alt="Internship Certificate" class="cert-img">
-             <h3>ML Completion Certificate</h3>
-             <p class="muted">Issued by: AWS SkillBuilder</p>
-             <p class="muted">Year: 2026</p>
-             <a href="assets/images/The Don.pdf" target="_blank"  class="cta" style="display:inline-block;margin-top:8px;">View Certificate</a>
-             
-            </div>
-        <div class="grid-3" style="margin-top:12px">
+  <h2>Certificates &amp; Achievements</h2>
 
-            <div class="card certificate-card">
-             <img src="assets/images/MULTIPLIER.png" alt="Beyond Success Certificate" class="cert-img">
-             <h3>MULTIPLIER CERTIFICATE</h3>
-             <p class="muted">Issued by: Beyond Success</p>
-             <p class="muted">Year: 2026</p>
-             <a href="assets/images/PRINCE'S MULTIPLIER CERTIFICATE By Beyond Success.pdf" target="_blank"  class="cta" style="display:inline-block;margin-top:8px;">View Certificate</a>
-             
-            </div>
-            <div class="grid-3" style="margin-top:12px">
+  <div class="certificates-grid">
 
-            <div class="card certificate-card">
-             <img src="assets/images/FACILITATOR.png" alt="Beyond Success Certificate" class="cert-img">
-             <h3>MULTIPLIER CERTIFICATE</h3>
-             <p class="muted">Issued by: Beyond Success</p>
-             <p class="muted">Year: 2026</p>
-             <a href="assets/images/PRINCE'S FACILITATOR CERTIFICATE By Beyond Success.pdf" target="_blank"  class="cta" style="display:inline-block;margin-top:8px;">View Certificate</a>
-             
-            </div>
-             <div class="grid-3" style="margin-top:12px">
+    <!-- AWS -->
+    <div class="card certificate-card">
 
-            <div class="card certificate-card">
-             <img src="assets/images/PARTICIPANT.png" alt="Beyond Success Certificate" class="cert-img">
-             <h3>MULTIPLIER CERTIFICATE</h3>
-             <p class="muted">Issued by: Beyond Success</p>
-             <p class="muted">Year: 2026</p>
-             <a href="assets/images/PRINCE'S PARTICIPANT CERTIFICATE By Beyond Success.pdf" target="_blank"  class="cta" style="display:inline-block;margin-top:8px;">View Certificate</a>
-             
-            </div>
+      <img
+        src="assets/images/aws.png"
+        alt="ML Completion Certificate"
+        class="cert-img"
+      >
+
+      <h3>ML Completion Certificate</h3>
+
+      <p class="muted">Issued by: AWS SkillBuilder</p>
+      <p class="muted">Year: 2026</p>
+
+      <a
+        href="assets/images/The Don.pdf"
+        target="_blank"
+        class="cta certificate-button"
+      >
+        View Certificate
+      </a>
+
+    </div>
+
+
+    <!-- MULTIPLIER -->
+    <div class="card certificate-card">
+
+      <img
+        src="assets/images/MULTIPLIER.png"
+        alt="Multiplier Certificate"
+        class="cert-img"
+      >
+
+      <h3>MULTIPLIER CERTIFICATE</h3>
+
+      <p class="muted">Issued by: Beyond Success</p>
+      <p class="muted">Year: 2026</p>
+
+      <a
+        href="assets/images/PRINCE'S MULTIPLIER CERTIFICATE By Beyond Success.pdf"
+        target="_blank"
+        class="cta certificate-button"
+      >
+        View Certificate
+      </a>
+
+    </div>
+
+
+    <!-- FACILITATOR -->
+    <div class="card certificate-card">
+
+      <img
+        src="assets/images/FACILITATOR.png"
+        alt="Facilitator Certificate"
+        class="cert-img"
+      >
+
+      <h3>FACILITATOR CERTIFICATE</h3>
+
+      <p class="muted">Issued by: Beyond Success</p>
+      <p class="muted">Year: 2026</p>
+
+      <a
+        href="assets/images/PRINCE'S FACILITATOR CERTIFICATE By Beyond Success.pdf"
+        target="_blank"
+        class="cta certificate-button"
+      >
+        View Certificate
+      </a>
+
+    </div>
+
+
+    <!-- PARTICIPANT -->
+    <div class="card certificate-card">
+
+      <img
+        src="assets/images/PARTICIPANT.png"
+        alt="Participant Certificate"
+        class="cert-img"
+      >
+
+      <h3>PARTICIPANT CERTIFICATE</h3>
+
+      <p class="muted">Issued by: Beyond Success</p>
+      <p class="muted">Year: 2026</p>
+
+      <a
+        href="assets/images/PRINCE'S PARTICIPANT CERTIFICATE By Beyond Success.pdf"
+        target="_blank"
+        class="cta certificate-button"
+      >
+        View Certificate
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
             
 
-            
-          
-
-      </section>
   
 
 <section class="music-section">
